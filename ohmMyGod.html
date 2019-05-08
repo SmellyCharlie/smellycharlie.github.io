@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Numbers and that</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+</head>
+
+<body>
+
+  <h4>Shamelessly stolen from <a
+      href="https://www.digikey.de/en/resources/conversion-calculators/conversion-calculator-ohms">here</a></h4>
+
+  <div class="calculator">
+    <p>Enter any two values and click calculate to solve for the remaining values.</p>
+    <div class="voltage">
+      <span class="input-headline">Voltage:</span>
+      <div class="calculator-input">
+        <span class="input-label">V</span>
+        <input placeholder="Enter Voltage..." name="voltage" id="voltage" type="number">
+      </div>
+    </div>
+    <div class="current">
+      <span class="input-headline">Current:</span>
+      <div class="calculator-input">
+        <span class="input-label">A</span>
+        <input placeholder="Enter Current..." name="current" id="current" type="number">
+      </div>
+    </div>
+    <div class="resistance">
+      <span class="input-headline">Resistance:</span>
+      <div class="calculator-input">
+        <span class="input-label">&Omega;</span>
+        <input placeholder="Enter Resistance..." name="resistance" id="resistance" type="number">
+      </div>
+    </div>
+    <div class="power">
+      <span class="input-headline">Power:</span>
+      <div class="calculator-input">
+        <span class="input-label">W</span>
+        <input placeholder="Enter Power..." name="power" id="power" type="number">
+      </div>
+    </div>
+    <p>
+      <div>
+        <button class="button" name="calculate" type="button" value="Calculate" onclick="results()">Calculate</button>
+        <button class="button" name="reset" type="button" value="Reset" onclick="reset()">Reset</button></div>
+      <script>
+        function results() {
+          const vol = document.getElementById("voltage").value;
+          const cur = document.getElementById("current").value;
+          const res = document.getElementById("resistance").value;
+          const pow = document.getElementById("power").value;
+          if (vol != "") {
+            if (cur != "") {
+              const volcurres = vol / cur;
+              document.getElementById("resistance").value = parseFloat(volcurres.toFixed(10));
+              const volcurpow = vol * cur;
+              document.getElementById("power").value = parseFloat(volcurpow.toFixed(10));
+            } else if (res != "") {
+              const volresres = vol / res;
+              document.getElementById("current").value = parseFloat(volresres.toFixed(10));
+              const volrespow = vol * vol / res;
+              document.getElementById("power").value = parseFloat(volrespow.toFixed(10));
+            } else if (pow != "") {
+              const volpowcur = pow / vol;
+              document.getElementById("current").value = parseFloat(volpowcur.toFixed(10));
+              const volpowres = vol * vol / pow;
+              document.getElementById("resistance").value = parseFloat(volpowres.toFixed(10));
+            }
+          } else if (cur != "") {
+            if (res != "") {
+              const curresvol = cur * res;
+              document.getElementById("voltage").value = parseFloat(curresvol.toFixed(10));
+              const currespow = cur * cur * res;
+              document.getElementById("power").value = parseFloat(currespow.toFixed(10));
+            } else if (pow != "") {
+              const curpowvol = pow / cur;
+              document.getElementById("voltage").value = parseFloat(curpowvol.toFixed(10));
+              const curpowres = pow / cur / cur;
+              document.getElementById("resistance").value = parseFloat(curpowres.toFixed(10));
+            }
+          } else if (res != "") {
+            if (pow != "") {
+              const respowvol = Math.sqrt(pow * res);
+              document.getElementById("voltage").value = parseFloat(respowvol.toFixed(10));
+              const respowcur = Math.sqrt(pow / res);
+              document.getElementById("current").value = parseFloat(respowcur.toFixed(10));
+            }
+          }
+        }
+
+        function reset() {
+          document.getElementById("voltage").value = "";
+          document.getElementById("current").value = "";
+          document.getElementById("resistance").value = "";
+          document.getElementById("power").value = "";
+          document.getElementById("voltage").focus;
+        }
+      </script>
+</body>
+
+</html>
